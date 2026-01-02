@@ -1,0 +1,14 @@
+PRA e Python - Automatiza qualquer processo ou sistema com Python
+
+pyautogui
+Biblioteca para controlar Mouse, Teclado e Tela do computador com o Python
+
+Vamos fazer um exemplo simples aqui, mas repare que isso serve para:
+Qualquer site 
+Qualquer programa ou pasta do seu computador
+Qualquer Sistema que você tenha que acessar e automatizar
+
+Desafio:
+Queremos automatizar o backup de arquivos no sistema
+No nosso exemplo, vamos ter que criar um processo que faça o upload de 1
+arquivo no Google Drive de forma automática e rápida
