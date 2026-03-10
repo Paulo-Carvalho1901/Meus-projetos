@@ -12,7 +12,6 @@ O objetivo deste repositório é demonstrar minhas habilidades técnicas, criati
 - Banco de Dados: MySQL, PostgreSQL, MongoDB  
 - Git & GitHub  
 
-> ✍️ *Atualize com seu stack real!*
 
 ---
 
@@ -35,5 +34,3 @@ Se quiser saber mais ou bater um papo:
 
 ---
 
-### ⭐ Gostou dos projetos?  
-Fique à vontade para deixar uma **estrela** ⭐ em qualquer repositório!
