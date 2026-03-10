@@ -32,5 +32,8 @@ Se quiser saber mais ou bater um papo:
 - Email: **paulo.car1901@hotmail.com**
 - LinkedIn: **[Paulo Carvalho](https://www.linkedin.com/in/paulo-carvalho-4193941a0/)**
 
+- Email: **gabriel.brognoli@global.ntt**
+- LinkedIn: **[Gabriel Brognoli](https://www.linkedin.com/in/gabriel-brognoli/)**
+
 ---
 
