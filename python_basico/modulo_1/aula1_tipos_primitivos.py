@@ -3,6 +3,9 @@
 n1 = int(input('Digite um número: '))
 n2 = int(input('Digite outro número: '))
 
+# Verificando o tipo de dado
+print(type(n1))
+
 soma = n1 + n2
 # print('A soma é:', soma)
 print(f'A soma é: {soma}')
