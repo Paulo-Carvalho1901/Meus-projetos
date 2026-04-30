@@ -8,7 +8,8 @@ print(type(n1))
 
 soma = n1 + n2
 # print('A soma é:', soma)
-print(f'A soma é: {soma}')
+#print(f'A soma é: {soma}')
+print(f'A soma entre {n1} e {n2} é = {soma}')
 
 """
 Os tipos primitivos mais basicos
