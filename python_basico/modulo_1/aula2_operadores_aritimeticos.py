@@ -27,3 +27,10 @@ print(ex2)
 
 ex3 = 3 * (5 + 4) ** 2
 print(ex3)
+
+print('=' * 30)
+print('PRATIICA')
+print()
+
+nome = input('Qual é seu nome: ')
+print(f'É uma prazer te conhecer {nome:=^34}!')
