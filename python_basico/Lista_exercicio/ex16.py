@@ -7,3 +7,5 @@ import math
 angulo = float(input('Digite o ângulo: '))
 seno = math.sin(math.radians(angulo)) # Calculando o seno do ângulo
 
+
+print(f'O ângulo de {angulo} de o SENO de {seno:.2f}')
