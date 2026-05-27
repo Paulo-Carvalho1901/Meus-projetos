@@ -3,7 +3,7 @@
 # triângulo retângulo. Calcule e mostre comprimento
 # da hipotenusa
 
-# Calculo matematico da hipotenusa
+print('CALCULO MATEMÁTICO DA HIPOTENUSA')
 co = float(input('Comprimento do coteto aposto: '))
 ca = float(input('Comprimento do cateto adjacente: '))
 hi = (co ** 2 + ca ** 2) ** (1/2)
