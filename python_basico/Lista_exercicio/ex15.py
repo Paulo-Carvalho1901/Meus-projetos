@@ -12,7 +12,6 @@ print(f'A hipotenusa vai medir {hi:.2f}')
 print('=' * 40)
 
 print('CALCULO COM IMPORTAÇÃO')
-# calculo com importação
 import math
 co_2 = float(input('Comprimento do cateto aposto: '))
 ca_2 = float(input('Comprimento do cateto adjacente: '))
