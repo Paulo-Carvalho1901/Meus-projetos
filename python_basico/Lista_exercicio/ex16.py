@@ -6,6 +6,8 @@ import math
 
 angulo = float(input('Digite o ângulo: '))
 seno = math.sin(math.radians(angulo)) # Calculando o seno do ângulo
+cosseno = math.cos(math.radians(angulo)) # Calculando o cosseno
 
 
 print(f'O ângulo de {angulo} de o SENO de {seno:.2f}')
+print(f'O ângulo de {angulo} de o COSSENO de {cosseno:.2f}')
