@@ -31,6 +31,7 @@ print(frase.find('Android'))
 print('Operadores com fatiamento')
 print('Curso' in frase)
 
+print('=' * 45)
 print('Transformação')
 print(frase.replace('Python', 'Android'))
 print(frase.upper())
