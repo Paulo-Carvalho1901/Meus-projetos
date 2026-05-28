@@ -8,5 +8,5 @@ import random
 
 nome_alunos = ['Paulo', 'Andreia', 'Flavio', 'Davi']
 
-sorteio = random.choices(nome_alunos)
-print(*sorteio)
+sorteio = random.choice(nome_alunos)
+print(f'O aluno escolhido foi {sorteio}')
