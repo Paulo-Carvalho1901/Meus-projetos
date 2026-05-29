@@ -7,4 +7,5 @@ import openpyxl
 
 # Ler um arquivo do excel
 workbook = openpyxl.load_workbook('Base_dados_produtos_reais.xlxs')
-workbook['vendas'] # selecionando a pagina para trabalhar
+vendas_sheet = workbook['vendas'] # selecionando a pagina para trabalhar
+
