@@ -53,3 +53,21 @@ def salvar_csv(df):
     )
 
     print(f'Arquivo salvo {arquivo}')
+
+
+def main():
+    try:
+        dados = busca_dados()
+
+        df = tratar_dados(dados)
+
+        salvar_csv(df)
+
+        print(df.head())
+
+    except Exception as erro:
+        print(f"Erro: {erro}")
+
+
+if __name__ == "__main__":
+    main()
