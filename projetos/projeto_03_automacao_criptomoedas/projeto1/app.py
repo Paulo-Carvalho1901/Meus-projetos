@@ -33,7 +33,7 @@ def tratar_dados(dados):
             "market_cap": moeda["market_cap"],
             "volume_24h": moeda["total_volume"],
             "variacao_24h": moeda["price_change_percentage_24h"],
-            "ultima_atualizacao": moeda["last_update"]
+            "ultima_    atualizacao": moeda["last_updated"]
         })
 
 
@@ -49,7 +49,7 @@ def salvar_csv(df):
         arquivo,
         index=False,
         sep=',',
-        enconding="utf-8-sig"
+        encoding="utf-8-sig"
     )
 
     print(f'Arquivo salvo {arquivo}')
