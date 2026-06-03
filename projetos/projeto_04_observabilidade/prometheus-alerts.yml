@@ -1,0 +1,32 @@
+groups:
+  - name: observabilidade-api
+    rules:
+      - alert: ApiErrosDetectados
+        expr: sum(rate(otel_api_erros_total[2m])) > 0
+        for: 1m
+        labels:
+          severity: warning
+          service: api-observabilidade
+        annotations:
+          summary: "Erros detectados na API"
+          description: "A taxa de erros da API está maior que zero nos últimos 2 minutos."
+
+      - alert: ApiLatenciaP95Alta
+        expr: histogram_quantile(0.95, sum by (le) (rate(otel_api_latencia_ms_milliseconds_bucket[5m]))) > 500
+        for: 2m
+        labels:
+          severity: warning
+          service: api-observabilidade
+        annotations:
+          summary: "Latência p95 alta"
+          description: "A latência p95 da API está acima de 500ms há mais de 2 minutos."
+
+      - alert: SemRequisicoesNaApi
+        expr: sum(increase(otel_api_requisicoes_total[5m])) == 0
+        for: 5m
+        labels:
+          severity: info
+          service: api-observabilidade
+        annotations:
+          summary: "Sem tráfego na API"
+          description: "Nenhuma requisição foi registrada na API nos últimos 5 minutos."

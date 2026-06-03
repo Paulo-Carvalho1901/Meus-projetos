@@ -1,0 +1,125 @@
+services:
+
+  # ── 1. Aplicação Python ──────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    container_name: api-observabilidade
+    ports:
+      - "8000:8000"
+    environment:
+      OTEL_SERVICE_NAME: api-observabilidade
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+    depends_on:
+      otel-collector:
+        condition: service_started
+    networks:
+      - observabilidade
+    restart: unless-stopped
+
+  # ── 2. OpenTelemetry Collector ───────────────────────────────
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.100.0
+    container_name: otel-collector
+    command: ["--config=/etc/otel/config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel/config.yaml:ro
+    ports:
+      - "4317:4317"    # OTLP gRPC
+      - "4318:4318"    # OTLP HTTP
+      - "8888:8888"    # Métricas internas do coletor
+      - "8889:8889"    # Prometheus scrape endpoint
+      - "13133:13133"  # Health check
+      - "55679:55679"  # zPages (debug)
+    networks:
+      - observabilidade
+    restart: unless-stopped
+
+  # ── 3. Jaeger (visualização de traces) ──────────────────────
+  jaeger:
+    image: jaegertracing/all-in-one:1.57
+    container_name: jaeger
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686"  # UI
+      - "14250:14250"  # gRPC
+    networks:
+      - observabilidade
+    restart: unless-stopped
+
+  # ── 4. Prometheus (coleta de métricas) ──────────────────────
+  prometheus:
+    image: prom/prometheus:v2.51.2
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus-alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - observabilidade
+    restart: unless-stopped
+
+  # ── 5. Alertmanager (roteamento de alertas) ────────────────
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    container_name: alertmanager
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        awk -v url="$SLACK_WEBHOOK_URL" '{gsub(/\$\{SLACK_WEBHOOK_URL\}/, url); print}' /etc/alertmanager/template.yml > /tmp/alertmanager.yml
+        exec /bin/alertmanager --config.file=/tmp/alertmanager.yml
+    environment:
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/template.yml:ro
+    ports:
+      - "9093:9093"
+    networks:
+      - observabilidade
+    restart: unless-stopped
+
+  # ── 6. Loki (armazenamento de logs) ─────────────────────────
+  loki:
+    image: grafana/loki:3.0.0
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - observabilidade
+    restart: unless-stopped
+
+  # ── 7. Grafana (dashboards unificados) ──────────────────────
+  grafana:
+    image: grafana/grafana:10.4.2
+    container_name: grafana
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+      - alertmanager
+      - loki
+      - jaeger
+    networks:
+      - observabilidade
+    restart: unless-stopped
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  observabilidade:
+    driver: bridge

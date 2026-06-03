@@ -1,0 +1,97 @@
+# ─────────────────────────────────────────────────────────────────
+#  OpenTelemetry Collector — configuração completa
+#
+#  Pipeline:
+#    Receivers  : OTLP gRPC (4317) + OTLP HTTP (4318)
+#    Processors : batch, memory_limiter, resource detector
+#    Exporters  : Jaeger (traces) | Prometheus (metrics) | logging
+# ─────────────────────────────────────────────────────────────────
+
+extensions:
+  health_check:
+    endpoint: "0.0.0.0:13133"
+  pprof:
+    endpoint: "0.0.0.0:1777"
+  zpages:
+    endpoint: "0.0.0.0:55679"
+
+receivers:
+  # OTLP via gRPC — porta padrão usada pela aplicação Python
+  otlp:
+    protocols:
+      grpc:
+        endpoint: "0.0.0.0:4317"
+      http:
+        endpoint: "0.0.0.0:4318"
+
+  # Métricas internas do próprio coletor
+  prometheus:
+    config:
+      scrape_configs:
+        - job_name: "otel-collector"
+          scrape_interval: 10s
+          static_configs:
+            - targets: ["0.0.0.0:8888"]
+
+processors:
+  # Limita uso de memória para evitar OOM
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 400
+    spike_limit_mib: 100
+
+  # Agrupa dados antes de exportar (reduz pressão nos backends)
+  batch:
+    send_batch_size: 1000
+    timeout: 5s
+
+  # Enriquece os dados com atributos de recurso
+  resource:
+    attributes:
+      - key: "collector.version"
+        value: "0.100.0"
+        action: insert
+
+exporters:
+  # ── Traces → Jaeger ──────────────────────────────────────────
+  otlp/jaeger:
+    endpoint: "jaeger:4317"
+    tls:
+      insecure: true
+
+  # ── Métricas → Prometheus (pull model) ──────────────────────
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    namespace: "otel"
+    const_labels:
+      exportado_por: "otel-collector"
+
+  # ── Logs → stdout do coletor (visível via docker logs) ──────
+  debug:
+    verbosity: detailed
+
+  # ── Logs → Loki ─────────────────────────────────────────────
+  loki:
+    endpoint: "http://loki:3100/loki/api/v1/push"
+    default_labels_enabled:
+      exporter: true
+      job: true
+
+service:
+  extensions: [health_check, pprof, zpages]
+
+  pipelines:
+    traces:
+      receivers:  [otlp]
+      processors: [memory_limiter, batch, resource]
+      exporters:  [otlp/jaeger, debug]
+
+    metrics:
+      receivers:  [otlp, prometheus]
+      processors: [memory_limiter, batch, resource]
+      exporters:  [prometheus, debug]
+
+    logs:
+      receivers:  [otlp]
+      processors: [memory_limiter, batch, resource]
+      exporters:  [loki, debug]

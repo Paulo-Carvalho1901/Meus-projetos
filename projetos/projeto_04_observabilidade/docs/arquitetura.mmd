@@ -1,0 +1,19 @@
+flowchart TD
+    API["🐍 API Python\nFastAPI :8000\n─────────────\nTraces\nMétricas\nLogs"]
+
+    COLLECTOR["📦 OTel Collector\n:4317 gRPC / :4318 HTTP\n─────────────\nReceiver → Processor → Exporter"]
+
+    JAEGER["🔍 Jaeger\n:16686\n(Traces)"]
+    PROM["📊 Prometheus\n:9090\n(Métricas)"]
+    LOKI["📋 Loki\n:3100\n(Logs)"]
+    GRAFANA["📈 Grafana\n:3000\nDashboards unificados"]
+
+    API -- "OTLP/gRPC\ntrace + metrics + logs" --> COLLECTOR
+
+    COLLECTOR -- "OTLP/gRPC\ntraces" --> JAEGER
+    COLLECTOR -- "Prometheus exporter\nmétricas" --> PROM
+    COLLECTOR -- "Loki Push API\nlogs" --> LOKI
+
+    JAEGER --> GRAFANA
+    PROM --> GRAFANA
+    LOKI --> GRAFANA
