@@ -20,3 +20,22 @@ def busca_dados():
 
     return response.json()
 
+
+def tratar_dados(dados):
+    registros = []
+
+    for moeda in dados:
+        registros.append({
+            "id": moeda["id"],
+            "nome": moeda["name"],
+            "simbolo": moeda["symbol"].upper(),
+            "preco_usd": moeda["current_price"],
+            "market_cap": moeda["market_cap"],
+            "volume_24h": moeda["total_volume"],
+            "variacao_24h": moeda["price_change_percentage_24h"],
+            "ultima_atualizacao": moeda["last_update"]
+        })
+
+
+    return pd.DataFrame(registros)
+
