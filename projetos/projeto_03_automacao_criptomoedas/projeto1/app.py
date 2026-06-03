@@ -39,3 +39,17 @@ def tratar_dados(dados):
 
     return pd.DataFrame(registros)
 
+
+def salvar_csv(df):
+    data_execucao = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    arquivo = f"moedas_{data_execucao}.csv"
+
+    df.to_csv(
+        arquivo,
+        index=False,
+        sep=',',
+        enconding="utf-8-sig"
+    )
+
+    print(f'Arquivo salvo {arquivo}')
