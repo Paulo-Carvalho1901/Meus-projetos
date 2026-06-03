@@ -1,4 +1,4 @@
-import pandas
+import pandas as pd
 import requests
 
 
@@ -20,3 +20,17 @@ class CoinGeckoClient:
         return response.json()
     
 
+class ProcessadorDados:
+
+    @staticmethod
+    def transformar(dados):
+
+        return pd.DataFrame([
+            {
+                "nome": item["name"],
+                "simbolo": item["symbol"],
+                "preco": item["current_price"]
+            }
+            for item in dados
+        ])
+        
