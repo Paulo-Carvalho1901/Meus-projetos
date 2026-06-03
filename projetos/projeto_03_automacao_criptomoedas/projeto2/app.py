@@ -34,3 +34,17 @@ class ProcessadorDados:
             for item in dados
         ])
         
+def executar():
+
+    clientes = CoinGeckoClient()
+
+    dados = clientes.obter_moedas()
+
+    df = ProcessadorDados.transformar(dados)
+
+    df.to_csv("resultado.csv", index=False)
+
+    print("CSV gerado com sucesso.")
+
+if __name__ == "__main__":
+    executar()
