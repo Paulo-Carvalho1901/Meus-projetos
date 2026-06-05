@@ -1,0 +1,3 @@
+hostname;ip;platform;version;serial
+SW-SP01;10.10.1.10;C9300;17.09.03;ABC123
+RTR-RJ01;10.20.1.1;ISR4331;17.06.04;XYZ456
