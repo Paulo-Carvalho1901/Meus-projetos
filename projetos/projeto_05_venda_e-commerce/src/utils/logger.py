@@ -1,7 +1,10 @@
+import os
 import logging
 
 
 def get_logger():
+
+    os.makedirs("logs", exist_ok=True)
 
     logging.basicConfig(
         filename="logs/application.log",
