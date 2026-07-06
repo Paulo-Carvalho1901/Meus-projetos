@@ -5,7 +5,7 @@ from fastapi import FastAPI, HTTPException
 
 app = FastAPI(title='FastAPI do zero')
 
-database = []
+database = [] # Banco de dados fake
 
 @app.get('/', status_code=HTTPStatus.OK, response_model=Message)
 def root():
