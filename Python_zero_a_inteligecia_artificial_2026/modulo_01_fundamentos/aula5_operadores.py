@@ -20,3 +20,9 @@ menor = num1 < num2
 menor_ou_igual = num1 <= num2
 igual = num1 == num2
 diferente = num1 != num2
+
+# Operadores de atribuição
+num1 += 1
+num1 -= 1
+num1 *= 1
+num1 /= 1
