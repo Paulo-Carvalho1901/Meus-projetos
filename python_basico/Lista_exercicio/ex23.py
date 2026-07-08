@@ -9,3 +9,7 @@ Em qual posição ela apareceua primeira vez
 Em qual posição ela apareceu a ultima vez
 
 """
+
+frase = input('Digite uma frase: ').lower().strip()
+
+print('Quantidade de "a" na frase:', frase.count('a'))
