@@ -14,3 +14,4 @@ Quantas letras tem o primeiro nome
 nome_completo = input('Digite seu nome completo: ')
 
 print(f'Seu nome todas as letras maiuscula {nome_completo.upper()}')
+print(f'Seu nome todas as letras minuscula {nome_completo.lower()}')
