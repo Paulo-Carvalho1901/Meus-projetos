@@ -17,3 +17,5 @@ print(f'Seu nome todas as letras maiuscula {nome_completo.upper()}')
 print(f'Seu nome todas as letras minuscula {nome_completo.lower()}')
 total_letra = len(nome_completo.replace(" ", "")) # replace corta os espaços.
 print(f'Total letra (sem espaço) {total_letra}')
+primeiro_nome = nome_completo.split()[0]
+print(f'Seu primeiro nome é {primeiro_nome}, tem {len(primeiro_nome)} letras')
