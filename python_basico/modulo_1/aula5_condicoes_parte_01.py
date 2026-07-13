@@ -22,7 +22,9 @@ media = (nota1 + nota2) / 2
 
 print(f'Sua média foi {media:.1f}')
 
-if media >= 6.0:
-    print(f'sua média de {media} foi boa! Parabéns! você passou!!!')
-else:
-    print('Desculpa sua média foi ruin! refaça a matéria!!!')
+# if media >= 6.0:
+#     print(f'sua média de {media} foi boa! Parabéns! você passou!!!')
+# else:
+#     print('Desculpa sua média foi ruin! refaça a matéria!!!')
+
+print(f'Parabéns você passou!' if media >= 6 else 'Estude mais!')
